@@ -96,7 +96,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
 
 (async () => {
   const { data: { session } } = await supabaseClient.auth.getSession();
-  if (session) {
+  if (session || localStorage.getItem('vyom-authenticated') === 'true') {
     window.location.replace('./home.html');
   }
 })();
@@ -107,6 +107,7 @@ document.getElementById('googleLogin').addEventListener('click', async function(
     provider: 'google',
     options: {
       redirectTo: 'https://vyom-shunya.github.io/VYOM/home.html',
+      queryParams: { access_type: 'offline', prompt: 'select_account' }
     }
   });
   if (error) {
@@ -116,13 +117,7 @@ document.getElementById('googleLogin').addEventListener('click', async function(
 });
 
 supabaseClient.auth.onAuthStateChange((event, session) => {
-  if (session) {
-    const user = session.user;
-    const name = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email || '';
-    const avatar = user?.user_metadata?.avatar_url || user?.user_metadata?.picture || '';
-    if (name) localStorage.setItem('vyom-name', name);
-    if (avatar) localStorage.setItem('vyom-avatar', avatar);
-  }
+  if (session) localStorage.setItem('vyom-authenticated', 'true');
 });
 </script>
 </body>
