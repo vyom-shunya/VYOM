@@ -90,13 +90,24 @@ body:before{
 <script>
 const SUPABASE_URL = "https://cpiuytuswbpvmblynpdh.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_S_Qxhf9lPN2kzc-LyUKW1Q_yIRfpTzY";
+
+function setVYOMLoginCookie(){
+  document.cookie='vyom-login=1; Max-Age=31536000; Path=/; SameSite=Lax; Secure';
+}
+function hasVYOMLoginCookie(){
+  return document.cookie.split('; ').some(c=>c==='vyom-login=1');
+}
+function clearVYOMLoginCookie(){
+  document.cookie='vyom-login=; Max-Age=0; Path=/; SameSite=Lax; Secure';
+}
+
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage, storageKey: "vyom-auth" }
 });
 
 (async () => {
   const { data: { session } } = await supabaseClient.auth.getSession();
-  if (session || localStorage.getItem('vyom-authenticated') === 'true') {
+  if (session || localStorage.getItem('vyom-authenticated') === 'true' || hasVYOMLoginCookie()) {
     window.location.replace('./home.html');
   }
 })();
@@ -117,7 +128,7 @@ document.getElementById('googleLogin').addEventListener('click', async function(
 });
 
 supabaseClient.auth.onAuthStateChange((event, session) => {
-  if (session) localStorage.setItem('vyom-authenticated', 'true');
+  if (session) { localStorage.setItem('vyom-authenticated', 'true'); setVYOMLoginCookie(); }
 });
 </script>
 </body>

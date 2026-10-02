@@ -188,6 +188,17 @@ body.theme-dark .theme-options-collapsed button{color:#fff}
 </main><div class="info-modal" id="aboutModal" aria-hidden="true"><div class="info-backdrop" onclick="closeAbout()"></div><section class="info-card" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><button class="info-close" type="button" onclick="closeAbout()" aria-label="बंद करें">×</button><div class="kicker">VYOM</div><h2 id="aboutTitle">VYOM के बारे में</h2><p>यह एक संस्था है जो आत्मविकास और माया पर विचार और मनन करती है।</p><p>VYOM (परम) की यात्रा में आने वाली बाधाओं को सीढ़ी बनाने की दिशा में विचार, संवाद और सहभागिता का माध्यम है।</p><p>यहाँ प्रश्न, चिंतन और संवाद के माध्यम से व्यक्ति को अपने भीतर देखने और अपने जीवन को समझने का अवसर मिलता है।</p><div class="about-links"><a href="https://youtube.com/@vyom-000?si=ciXO8zUHqLblK2nj" target="_blank" rel="noopener"><span>YouTube के जरिए VYOM से जुड़ें</span><strong>↗</strong></a><a href="https://t.me/+ZJWN1OR2_bYxMjI1" target="_blank" rel="noopener"><span>Telegram के जरिए VYOM से जुड़ें</span><strong>↗</strong></a><a href="./sahbhagita.html"><span>VYOM से जुड़ें • सहभागिता लें</span><strong>→</strong></a></div></section></div><footer>VYOM</footer><script>
 const SUPABASE_URL = "https://cpiuytuswbpvmblynpdh.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_S_Qxhf9lPN2kzc-LyUKW1Q_yIRfpTzY";
+
+function setVYOMLoginCookie(){
+  document.cookie='vyom-login=1; Max-Age=31536000; Path=/; SameSite=Lax; Secure';
+}
+function hasVYOMLoginCookie(){
+  return document.cookie.split('; ').some(c=>c==='vyom-login=1');
+}
+function clearVYOMLoginCookie(){
+  document.cookie='vyom-login=; Max-Age=0; Path=/; SameSite=Lax; Secure';
+}
+
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage, storageKey: "vyom-auth" }
 });
@@ -214,6 +225,7 @@ async function logoutVYOM(){
  document.getElementById('menuPanel')?.classList.remove('open');
  try{await supabaseClient.auth.signOut();}catch(e){}
  localStorage.removeItem('vyom-authenticated');
+ clearVYOMLoginCookie();
  localStorage.removeItem('vyom-name');
  localStorage.removeItem('vyom-avatar');
  localStorage.removeItem('vyom-id');
@@ -226,14 +238,15 @@ document.addEventListener('click',e=>{const w=document.querySelector('.menu-wrap
 
 (async function(){
   const {data:{session}} = await supabaseClient.auth.getSession();
-  if(!session && localStorage.getItem('vyom-authenticated') !== 'true') { window.location.replace('./index.html'); return; }
-  if(session) localStorage.setItem('vyom-authenticated','true');
+  if(!session && localStorage.getItem('vyom-authenticated') !== 'true' && !hasVYOMLoginCookie()) { window.location.replace('./index.html'); return; }
+  if(session){ localStorage.setItem('vyom-authenticated','true'); setVYOMLoginCookie(); }
   await loadGoogleProfile();
 })();
 
 supabaseClient.auth.onAuthStateChange((event, session)=>{
   if(session){
     localStorage.setItem('vyom-authenticated','true');
+    setVYOMLoginCookie();
     setTimeout(loadGoogleProfile, 0);
   }
 });
