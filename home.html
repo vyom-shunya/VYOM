@@ -391,4 +391,67 @@ document.addEventListener('click',e=>{
   applyTheme();
   window.addEventListener('storage',applyTheme);
 })();
-</script></body></html>
+</script><script id="vyom-profile-final-fix">
+(function(){
+  const supabaseClient = window.vyomSupabase;
+
+  function getUserInfo(user){
+    const m=user?.user_metadata || {};
+    const idm=user?.identities?.[0]?.identity_data || {};
+    const name=m.full_name || m.name || idm.full_name || idm.name || user?.email?.split('@')[0] || 'प्रोफ़ाइल';
+    const avatar=m.avatar_url || m.picture || idm.avatar_url || idm.picture || '';
+    return {name,avatar};
+  }
+
+  async function syncMember(){
+    try{
+      if(!supabaseClient) return;
+      const {data:sessionData,error:sessionError}=await supabaseClient.auth.getSession();
+      if(sessionError || !sessionData?.session?.user) return;
+      const user=sessionData.session.user;
+      const info=getUserInfo(user);
+
+      // Show Google data immediately.
+      localStorage.setItem('vyom-name',info.name);
+      if(info.avatar) localStorage.setItem('vyom-avatar',info.avatar);
+      if(typeof setProfileData==='function') setProfileData(info.name,null,info.avatar);
+
+      // Ask the database for the permanent VYOM member number.
+      const {data,error}=await supabaseClient.rpc('register_vyom_member',{
+        p_name:info.name,
+        p_avatar:info.avatar
+      });
+      if(error) throw error;
+
+      const row=Array.isArray(data) ? data[0] : data;
+      if(!row || row.member_no===null || row.member_no===undefined) throw new Error('VYOM member number not returned');
+
+      if(typeof setProfileData==='function'){
+        setProfileData(row.name || info.name,row.member_no,row.avatar_url || info.avatar);
+      }else{
+        const id='VYOM-'+String(row.member_no).padStart(2,'0');
+        localStorage.setItem('vyom-id',id);
+        localStorage.setItem('vyom-member','true');
+      }
+    }catch(e){
+      console.error('VYOM profile sync failed:',e);
+    }
+  }
+
+  // Run after the existing page scripts and whenever Supabase finishes OAuth.
+  setTimeout(syncMember,250);
+  if(supabaseClient){
+    supabaseClient.auth.onAuthStateChange(function(event,session){
+      if(session?.user) setTimeout(syncMember,100);
+    });
+  }
+
+  // Make the profile button always refresh the latest stored data.
+  const oldShowProfile=window.showProfile;
+  window.showProfile=function(){
+    if(typeof oldShowProfile==='function') oldShowProfile();
+    syncMember();
+  };
+})();
+</script>
+</body></html>
