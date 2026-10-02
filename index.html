@@ -90,7 +90,7 @@ body:before{
 <script>
 const SUPABASE_URL = "https://cpiuytuswbpvmblynpdh.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_S_Qxhf9lPN2kzc-LyUKW1Q_yIRfpTzY";
-const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage, storageKey: "vyom-auth" } });
 
 // If the user is already signed in, skip the login page.
 (async () => {
