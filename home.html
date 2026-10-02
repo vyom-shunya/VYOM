@@ -131,7 +131,25 @@ body.theme-dark .theme-options-collapsed button{color:#fff}
 .theme-options-collapsed button{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:10px;padding:8px 6px;font:inherit;font-size:.86rem;font-weight:800;cursor:pointer}
 body.theme-dark .menu-item,body.theme-dark .profile-menu-item{color:#fff}
 body.theme-dark .theme-options-collapsed button{color:#fff}
-</style></head><body class="page-home"><header class="topbar"><div class="topbar-inner">
+</style>
+<style id="vyom-final-theme">
+body.theme-dark{background:#000 !important;color:#fff !important;--bg:#000;--panel:#0a0a0a;--panel2:#111;--line:rgba(103,232,249,.22);--text:#fff;--muted:#c4c4c4;--cyan:#67e8f9}
+body.theme-dark .topbar{background:#000 !important;color:#fff !important;border-bottom-color:rgba(103,232,249,.16) !important}
+body.theme-dark .navrow{background:#0b0b0b !important;border-bottom-color:rgba(103,232,249,.10) !important}
+body.theme-dark .navrow a,body.theme-dark .brand,body.theme-dark .back-home{color:#fff !important}
+body.theme-dark main,body.theme-dark .page,body.theme-dark .hero,body.theme-dark .section{color:#fff !important}
+body.theme-dark .panel,body.theme-dark .card{background:#0a0a0a !important;color:#fff !important;border-color:rgba(103,232,249,.22) !important}
+body.theme-dark .menu-panel{background:#0a0a0a !important;color:#fff !important;border-color:rgba(103,232,249,.22) !important;box-shadow:0 18px 45px rgba(0,0,0,.7) !important}
+body.theme-dark .menu-panel a,body.theme-dark .menu-panel button,body.theme-dark .menu-item,body.theme-dark .profile-menu-item{color:#fff !important}
+body.theme-dark .menu-panel a:hover,body.theme-dark .menu-panel button:hover{background:rgba(103,232,249,.08) !important}
+body.theme-dark input,body.theme-dark textarea{background:#050505 !important;color:#fff !important;border-color:rgba(255,255,255,.18) !important}
+body.theme-dark h1,body.theme-dark h2,body.theme-dark h3,body.theme-dark p,body.theme-dark label,body.theme-dark .lead{color:#f4fbff !important}
+body.theme-dark .note,body.theme-dark footer{color:#c4c4c4 !important}
+body.theme-dark .theme-options-collapsed button,body.theme-dark .theme-options button{color:#fff !important;background:#111 !important;border-color:rgba(103,232,249,.22) !important}
+.logout-item{color:#ffb4b4 !important}
+body.theme-dark .logout-item{color:#ffb4b4 !important}
+</style>
+</head><body class="page-home"><header class="topbar"><div class="topbar-inner">
 <a class="brand" href="./home.html">VYOM</a>
 <div class="menu-wrap">
 <button class="menu-btn profile-btn" type="button" aria-label="प्रोफ़ाइल खोलें" onclick="toggleMenu()">
@@ -242,6 +260,17 @@ supabaseClient.auth.onAuthStateChange((event, session)=>{
     setTimeout(loadGoogleProfile, 0);
   }
 });
+
+async function logoutVYOM(){
+  document.getElementById('menuPanel')?.classList.remove('open');
+  try{ await supabaseClient.auth.signOut(); }catch(e){}
+  localStorage.removeItem('vyom-authenticated');
+  localStorage.removeItem('vyom-name');
+  localStorage.removeItem('vyom-avatar');
+  localStorage.removeItem('vyom-id');
+  localStorage.removeItem('vyom-member');
+  window.location.replace('./index.html');
+}
 </script>
 </body>
 </html>
