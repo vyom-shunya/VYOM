@@ -1,5 +1,5 @@
 <!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#06131f"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https://*.googleusercontent.com https://lh3.googleusercontent.com; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://cpiuytuswbpvmblynpdh.supabase.co wss://cpiuytuswbpvmblynpdh.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="theme-color" content="#06131f"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin"><title>VYOM</title><style>
 :root{--bg:#06131f;--panel:#0a1d2b;--panel2:#0d2638;--line:rgba(103,232,249,.20);--text:#edfaff;--muted:#a9bfce;--cyan:#67e8f9}
 *{box-sizing:border-box}
@@ -146,6 +146,8 @@ body.theme-dark .theme-options-collapsed button{color:#fff}
 <div class="theme-options-collapsed" id="themeOptions"><button type="button" onclick="setTheme('dark')">डार्क</button><button type="button" onclick="setTheme('vyom')">VYOM</button></div>
 <a href="#about" class="menu-item" onclick="showAbout();return false;">
 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path fill="currentColor" d="M11 10h2v7h-2v-7Zm0-3h2v2h-2V7Z"/></svg><span>VYOM के बारे में</span></a>
+<button type="button" class="menu-item" onclick="logoutVYOM()">
+<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h4"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M14 8l4 4-4 4M9 12h9"/></svg><span>लॉग आउट</span></button>
 </div></div></div></header>
 <nav class="navrow" aria-label="मुख्य नेविगेशन">
 <a class="nav-youtube" href="https://youtube.com/@vyom-000?si=ciXO8zUHqLblK2nj" target="_blank" rel="noopener">
@@ -309,6 +311,18 @@ async function loadVYOMProfile(){
     const avatar=localStorage.getItem('vyom-avatar') || '';
     setProfileData(name,num || null,avatar);
   }
+}
+
+async function logoutVYOM(){
+  document.getElementById('menuPanel')?.classList.remove('open');
+  try{
+    await vyomSupabase.auth.signOut();
+  }catch(e){}
+  localStorage.removeItem('vyom-name');
+  localStorage.removeItem('vyom-id');
+  localStorage.removeItem('vyom-avatar');
+  localStorage.removeItem('vyom-member');
+  window.location.href='./index.html';
 }
 
 function showProfile(){
