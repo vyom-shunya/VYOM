@@ -114,6 +114,8 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLI
 
 document.getElementById('googleLogin').addEventListener('click', async function(){
   this.disabled = true;
+  localStorage.setItem('vyom-authenticated', 'true');
+  setVYOMLoginCookie();
   const { error } = await supabaseClient.auth.signInWithOAuth({
     provider: 'google',
     options: {
@@ -122,6 +124,8 @@ document.getElementById('googleLogin').addEventListener('click', async function(
     }
   });
   if (error) {
+    localStorage.removeItem('vyom-authenticated');
+    clearVYOMLoginCookie();
     this.disabled = false;
     alert('Google Login में समस्या आई। कृपया फिर से प्रयास करें।');
   }
