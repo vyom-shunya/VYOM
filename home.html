@@ -146,6 +146,9 @@ body.theme-dark .theme-options-collapsed button{color:#fff}
 <div class="theme-options-collapsed" id="themeOptions"><button type="button" onclick="setTheme('dark')">डार्क</button><button type="button" onclick="setTheme('vyom')">VYOM</button></div>
 <a href="#about" class="menu-item" onclick="showAbout();return false;">
 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path fill="currentColor" d="M11 10h2v7h-2v-7Zm0-3h2v2h-2V7Z"/></svg><span>VYOM के बारे में</span></a>
+
+<a href="#logout" class="menu-item" onclick="vyomLogout();return false;">
+<svg viewBox="0 0 24 24"><path fill="currentColor" d="M10 4H5.5A1.5 1.5 0 0 0 4 5.5v13A1.5 1.5 0 0 0 5.5 20H10v-2H6V6h4V4Zm5.5 3-1.4 1.4 2.2 2.2H9v2h7.3L14.1 15l1.4 1.4 4.6-4.7-4.6-4.7Z"/></svg><span>लॉग आउट</span></a>
 </div></div></div></header>
 <nav class="navrow" aria-label="मुख्य नेविगेशन">
 <a class="nav-youtube" href="https://youtube.com/@vyom-000?si=ciXO8zUHqLblK2nj" target="_blank" rel="noopener">
@@ -183,8 +186,9 @@ body.theme-dark .theme-options-collapsed button{color:#fff}
 </div></section>
 <section class="section"><div class="panel"><div class="kicker">VYOM</div><h2>VYOM एक माध्यम में सहभागिता लें</h2><p class="lead">VYOM के माध्यम से जुड़ने के लिए आगे बढ़ें।</p><a class="btn" href="./sahbhagita.html"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7-6v6m-3-3h6"/></svg> सहभागिता</a></div></section>
 </main><div class="info-modal" id="aboutModal" aria-hidden="true"><div class="info-backdrop" onclick="closeAbout()"></div><section class="info-card" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><button class="info-close" type="button" onclick="closeAbout()" aria-label="बंद करें">×</button><div class="kicker">VYOM</div><h2 id="aboutTitle">VYOM के बारे में</h2><p>यह एक संस्था है जो आत्मविकास और माया पर विचार और मनन करती है।</p><p>VYOM (परम) की यात्रा में आने वाली बाधाओं को सीढ़ी बनाने की दिशा में विचार, संवाद और सहभागिता का माध्यम है।</p><p>यहाँ प्रश्न, चिंतन और संवाद के माध्यम से व्यक्ति को अपने भीतर देखने और अपने जीवन को समझने का अवसर मिलता है।</p><div class="about-links"><a href="https://youtube.com/@vyom-000?si=ciXO8zUHqLblK2nj" target="_blank" rel="noopener"><span>YouTube के जरिए VYOM से जुड़ें</span><strong>↗</strong></a><a href="https://t.me/+ZJWN1OR2_bYxMjI1" target="_blank" rel="noopener"><span>Telegram के जरिए VYOM से जुड़ें</span><strong>↗</strong></a><a href="./sahbhagita.html"><span>VYOM से जुड़ें • सहभागिता लें</span><strong>→</strong></a></div></section></div><footer>VYOM</footer>
-<style>
-.profile-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:9999}
+
+<style id="vyom-profile-fix">
+.profile-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:99999}
 .profile-modal.open{display:flex}
 .profile-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(7px)}
 .profile-modal-card{position:relative;width:min(92vw,610px);padding:28px 22px 34px;border:1px solid rgba(103,232,249,.38);border-radius:30px;background:#081d2b;color:#fff;box-shadow:0 22px 70px rgba(0,0,0,.55);text-align:center}
@@ -200,7 +204,7 @@ body.theme-dark .profile-modal-note{color:#c9c9c9}
 
 <div class="profile-modal" id="profileModal" aria-hidden="true">
   <div class="profile-modal-backdrop" onclick="closeProfileModal()"></div>
-  <section class="profile-modal-card" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+  <section class="profile-modal-card" role="dialog" aria-modal="true">
     <button class="profile-modal-close" type="button" onclick="closeProfileModal()" aria-label="बंद करें">×</button>
     <div class="profile-modal-avatar" id="profileModalAvatar">प्र</div>
     <h2 class="profile-modal-title" id="profileModalTitle">प्रोफ़ाइल</h2>
@@ -210,18 +214,30 @@ body.theme-dark .profile-modal-note{color:#c9c9c9}
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
+<script id="vyom-profile-fix-script">
 const SUPABASE_URL="https://cpiuytuswbpvmblynpdh.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY="sb_publishable_S_Qxhf9lPN2kzc-LyUKW1Q_yIRfpTzY";
 const vyomSupabase=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
 
 function toggleMenu(){const p=document.getElementById('menuPanel');if(p)p.classList.toggle('open')}
-function setTheme(theme){document.body.classList.toggle('theme-dark',theme==='dark');localStorage.setItem('vyom-theme',theme);document.getElementById('themeOptions')?.classList.remove('open');document.getElementById('menuPanel')?.classList.remove('open')}
 function toggleThemeOptions(){document.getElementById('themeOptions')?.classList.toggle('open')}
-function showAbout(){document.getElementById('menuPanel')?.classList.remove('open');document.getElementById('aboutModal')?.classList.add('open');document.getElementById('aboutModal')?.setAttribute('aria-hidden','false')}
-function closeAbout(){document.getElementById('aboutModal')?.classList.remove('open');document.getElementById('aboutModal')?.setAttribute('aria-hidden','true')}
+function setTheme(theme){
+  document.body.classList.toggle('theme-dark',theme==='dark');
+  localStorage.setItem('vyom-theme',theme);
+  document.getElementById('themeOptions')?.classList.remove('open');
+  document.getElementById('menuPanel')?.classList.remove('open');
+}
+function showAbout(){
+  document.getElementById('menuPanel')?.classList.remove('open');
+  document.getElementById('aboutModal')?.classList.add('open');
+  document.getElementById('aboutModal')?.setAttribute('aria-hidden','false');
+}
+function closeAbout(){
+  document.getElementById('aboutModal')?.classList.remove('open');
+  document.getElementById('aboutModal')?.setAttribute('aria-hidden','true');
+}
 
-function setProfileAvatar(url,name){
+function applyAvatar(url,name){
   const initial=(name||'प्रोफ़ाइल').trim().slice(0,1)||'प्र';
   const top=document.getElementById('profileAvatar');
   const icon=document.getElementById('profileIcon');
@@ -236,55 +252,106 @@ function setProfileAvatar(url,name){
     if(modal)modal.textContent=initial;
   }
 }
-function saveProfile(name,no,avatar){
+
+function applyProfile(name,no,avatar){
   const n=(name||'प्रोफ़ाइल').trim()||'प्रोफ़ाइल';
-  const id=(no!==null&&no!==undefined&&no!=='')?'VYOM-'+String(no).padStart(2,'0'):null;
+  const id=no!==null&&no!==undefined&&no!=='' ? 'VYOM-'+String(no).padStart(2,'0') : (localStorage.getItem('vyom-id')||'');
   localStorage.setItem('vyom-name',n);
-  if(id){localStorage.setItem('vyom-id',id);localStorage.setItem('vyom-member','true')}
+  if(id){
+    localStorage.setItem('vyom-id',id);
+    localStorage.setItem('vyom-member','true');
+  }
   if(avatar)localStorage.setItem('vyom-avatar',avatar);
-  const t=document.getElementById('profileModalTitle'),i=document.getElementById('profileModalId');
-  if(t)t.textContent=n;if(i)i.textContent='VYOM ID: '+(id||localStorage.getItem('vyom-id')||'—');
-  setProfileAvatar(avatar||localStorage.getItem('vyom-avatar')||'',n);
+
+  const title=document.getElementById('profileModalTitle');
+  const idBox=document.getElementById('profileModalId');
+  if(title)title.textContent=n;
+  if(idBox)idBox.textContent='VYOM ID: '+(id||'—');
+  applyAvatar(avatar||localStorage.getItem('vyom-avatar')||'',n);
 }
-async function loadVYOMProfile(){
+
+async function syncVYOMProfile(){
   try{
-    const {data:{session}}=await vyomSupabase.auth.getSession();
+    const result=await vyomSupabase.auth.getSession();
+    const session=result?.data?.session;
     if(!session?.user)return;
-    const u=session.user,m=u.user_metadata||{};
+
+    const u=session.user;
+    const m=u.user_metadata||{};
     const name=m.full_name||m.name||u.email?.split('@')[0]||'प्रोफ़ाइल';
     const avatar=m.avatar_url||m.picture||'';
-    const {data,error}=await vyomSupabase.rpc('register_vyom_member',{p_name:name,p_avatar:avatar});
-    if(error)throw error;
-    const row=Array.isArray(data)?data[0]:data;
-    if(row?.member_no!=null)saveProfile(row.name||name,row.member_no,row.avatar_url||avatar);
-    else saveProfile(name,null,avatar);
+
+    const rpc=await vyomSupabase.rpc('register_vyom_member',{
+      p_name:name,
+      p_avatar:avatar
+    });
+    if(rpc.error)throw rpc.error;
+
+    const row=Array.isArray(rpc.data)?rpc.data[0]:rpc.data;
+    if(row?.member_no!==null && row?.member_no!==undefined){
+      applyProfile(row.name||name,row.member_no,row.avatar_url||avatar);
+    }else{
+      applyProfile(name,null,avatar);
+    }
   }catch(e){
-    const n=localStorage.getItem('vyom-name')||'प्रोफ़ाइल';
-    const old=localStorage.getItem('vyom-id');
-    saveProfile(n,old?String(old).replace(/^VYOM-/,''):null,localStorage.getItem('vyom-avatar')||'');
+    applyProfile(
+      localStorage.getItem('vyom-name')||'प्रोफ़ाइल',
+      null,
+      localStorage.getItem('vyom-avatar')||''
+    );
   }
 }
+
 function showProfile(){
   document.getElementById('menuPanel')?.classList.remove('open');
-  const n=localStorage.getItem('vyom-name')||'प्रोफ़ाइल',id=localStorage.getItem('vyom-id')||'—',a=localStorage.getItem('vyom-avatar')||'';
-  document.getElementById('profileModalTitle').textContent=n;
-  document.getElementById('profileModalId').textContent='VYOM ID: '+id;
-  setProfileAvatar(a,n);
+  const name=localStorage.getItem('vyom-name')||'प्रोफ़ाइल';
+  const id=localStorage.getItem('vyom-id')||'—';
+  const avatar=localStorage.getItem('vyom-avatar')||'';
+  const title=document.getElementById('profileModalTitle');
+  const idBox=document.getElementById('profileModalId');
+  if(title)title.textContent=name;
+  if(idBox)idBox.textContent='VYOM ID: '+id;
+  applyAvatar(avatar,name);
   document.getElementById('profileModal')?.classList.add('open');
   document.getElementById('profileModal')?.setAttribute('aria-hidden','false');
-  loadVYOMProfile();
+  syncVYOMProfile();
 }
-function closeProfileModal(){document.getElementById('profileModal')?.classList.remove('open');document.getElementById('profileModal')?.setAttribute('aria-hidden','true')}
+
+function closeProfileModal(){
+  document.getElementById('profileModal')?.classList.remove('open');
+  document.getElementById('profileModal')?.setAttribute('aria-hidden','true');
+}
+
+async function vyomLogout(){
+  try{await vyomSupabase.auth.signOut()}catch(e){}
+  localStorage.removeItem('vyom-name');
+  localStorage.removeItem('vyom-id');
+  localStorage.removeItem('vyom-avatar');
+  localStorage.removeItem('vyom-member');
+  window.location.href='index.html';
+}
 
 (function(){
-  const t=localStorage.getItem('vyom-theme')||'vyom';if(t==='dark')document.body.classList.add('theme-dark');
-  const n=localStorage.getItem('vyom-name')||'प्रोफ़ाइल',a=localStorage.getItem('vyom-avatar')||'',id=localStorage.getItem('vyom-id')||'—';
-  document.getElementById('profileModalTitle')?.replaceChildren(document.createTextNode(n));
-  const pi=document.getElementById('profileModalId');if(pi)pi.textContent='VYOM ID: '+id;
-  setProfileAvatar(a,n);
-  loadVYOMProfile();
+  const theme=localStorage.getItem('vyom-theme')||'vyom';
+  document.body.classList.toggle('theme-dark',theme==='dark');
+
+  const name=localStorage.getItem('vyom-name')||'प्रोफ़ाइल';
+  const id=localStorage.getItem('vyom-id')||'—';
+  const avatar=localStorage.getItem('vyom-avatar')||'';
+
+  applyAvatar(avatar,name);
+  const title=document.getElementById('profileModalTitle');
+  const idBox=document.getElementById('profileModalId');
+  if(title)title.textContent=name;
+  if(idBox)idBox.textContent='VYOM ID: '+id;
+
+  syncVYOMProfile();
 })();
-document.addEventListener('click',e=>{const w=document.querySelector('.menu-wrap'),p=document.getElementById('menuPanel');if(w&&p&&!w.contains(e.target))p.classList.remove('open')});
+
+document.addEventListener('click',e=>{
+  const w=document.querySelector('.menu-wrap'),p=document.getElementById('menuPanel');
+  if(w&&p&&!w.contains(e.target))p.classList.remove('open');
+});
 </script>
 
 </body></html>
