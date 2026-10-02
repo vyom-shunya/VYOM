@@ -141,6 +141,8 @@ body.theme-dark .profile-card{background:#0a0a0a;color:#fff}.profile-card .profi
 <a href="#about" class="menu-item" onclick="showAbout();return false;">
 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path fill="currentColor" d="M11 10h2v7h-2v-7Zm0-3h2v2h-2V7Z"/></svg>
 <span>VYOM के बारे में</span></a>
+
+<button type="button" class="menu-item logout-item" onclick="logoutVYOM()"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4"/><path fill="none" stroke="currentColor" stroke-width="2" d="M13 8l4 4-4 4M8 12h9"/></svg><span>लॉग आउट</span></button>
 </div></div></div></header>
 <nav class="navrow" aria-label="मुख्य नेविगेशन">
 <a class="nav-youtube" href="https://youtube.com/@vyom-000?si=ciXO8zUHqLblK2nj" target="_blank" rel="noopener">
@@ -172,6 +174,15 @@ body.theme-dark .profile-card{background:#0a0a0a;color:#fff}.profile-card .profi
 <div class="info-modal" id="aboutModal" aria-hidden="true"><div class="info-backdrop" onclick="closeAbout()"></div><section class="info-card" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><button class="info-close" type="button" onclick="closeAbout()" aria-label="बंद करें">×</button><div class="kicker">VYOM</div><h2 id="aboutTitle">VYOM के बारे में</h2><p>यह एक संस्था है जो आत्मविकास और माया पर विचार और मनन करती है।</p><p>VYOM (परम) की यात्रा में आने वाली बाधाओं को सीढ़ी बनाने की दिशा में विचार, संवाद और सहभागिता का माध्यम है।</p><p>यहाँ प्रश्न, चिंतन और संवाद के माध्यम से व्यक्ति को अपने भीतर देखने और अपने जीवन को समझने का अवसर मिलता है।</p><div class="about-links"><a href="https://youtube.com/@vyom-000?si=ciXO8zUHqLblK2nj" target="_blank" rel="noopener"><span>YouTube के जरिए VYOM से जुड़ें</span><strong>↗</strong></a><a href="https://t.me/+ZJWN1OR2_bYxMjI1" target="_blank" rel="noopener"><span>Telegram के जरिए VYOM से जुड़ें</span><strong>↗</strong></a><a href="./sahbhagita.html"><span>VYOM से जुड़ें • सहभागिता लें</span><strong>→</strong></a></div></section></div><footer>VYOM</footer><div class="profile-modal" id="profileModal" aria-hidden="true"><div class="profile-backdrop" onclick="closeProfile()"></div><section class="profile-card" role="dialog" aria-modal="true" aria-labelledby="profileTitle"><button class="profile-close" type="button" onclick="closeProfile()" aria-label="बंद करें">×</button><div class="profile-photo-big"><img id="profileModalAvatar" alt="प्रोफ़ाइल" hidden><span id="profileInitial" class="profile-initial">V</span></div><div id="profileTitle" class="profile-name">प्रोफ़ाइल</div><div id="profileModalId" class="profile-id">VYOM ID: —</div><div class="profile-caption">VYOM सदस्य प्रोफ़ाइल</div><div id="profileLoading" class="profile-loading"></div></section></div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
 const VYOM_SUPABASE_URL="https://cpiuytuswbpvmblynpdh.supabase.co";const VYOM_SUPABASE_KEY="sb_publishable_S_Qxhf9lPN2kzc-LyUKW1Q_yIRfpTzY";
 const vyomClient=window.supabase?.createClient(VYOM_SUPABASE_URL,VYOM_SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true,storage:window.localStorage,storageKey:"vyom-auth"}});
+async function logoutVYOM(){
+  try{if(vyomClient) await vyomClient.auth.signOut();}catch(e){}
+  localStorage.removeItem('vyom-auth');
+  localStorage.removeItem('vyom-id');
+  localStorage.removeItem('vyom-name');
+  localStorage.removeItem('vyom-avatar');
+  localStorage.removeItem('vyom-member-user-id');
+  window.location.replace('./index.html');
+}
 function toggleMenu(){const p=document.getElementById('menuPanel');if(p)p.classList.toggle('open')}
 function setTheme(theme){document.body.classList.toggle('theme-dark',theme==='dark');localStorage.setItem('vyom-theme',theme);document.getElementById('themeOptions')?.classList.remove('open');document.getElementById('menuPanel')?.classList.remove('open')}
 function toggleThemeOptions(){document.getElementById('themeOptions')?.classList.toggle('open')}
