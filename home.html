@@ -1,5 +1,5 @@
 <!doctype html><html lang="hi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#06131f"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://cpiuytuswbpvmblynpdh.supabase.co wss://cpiuytuswbpvmblynpdh.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
+<meta name="theme-color" content="#06131f"><meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' https://cpiuytuswbpvmblynpdh.supabase.co https://*.supabase.co; img-src 'self' data: https://*.googleusercontent.com https://lh3.googleusercontent.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests">
 <meta http-equiv="X-Content-Type-Options" content="nosniff"><meta name="referrer" content="strict-origin-when-cross-origin"><title>VYOM</title><style>
 :root{--bg:#06131f;--panel:#0a1d2b;--panel2:#0d2638;--line:rgba(103,232,249,.20);--text:#edfaff;--muted:#a9bfce;--cyan:#67e8f9}
 *{box-sizing:border-box}
@@ -131,33 +131,15 @@ body.theme-dark .theme-options-collapsed button{color:#fff}
 .theme-options-collapsed button{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:10px;padding:8px 6px;font:inherit;font-size:.86rem;font-weight:800;cursor:pointer}
 body.theme-dark .menu-item,body.theme-dark .profile-menu-item{color:#fff}
 body.theme-dark .theme-options-collapsed button{color:#fff}
-</style>
-<style id="vyom-profile-fix">
-.profile-btn{padding:0!important;overflow:hidden;border-radius:50%!important;width:44px!important;height:44px!important}
-.profile-avatar{width:100%;height:100%;object-fit:cover;border-radius:50%;display:block}
-.profile-btn #profileIcon{width:25px;height:25px}
-.menu-panel{width:230px}
-.menu-item,.profile-menu-item{width:100%;display:flex;align-items:center;gap:10px;padding:12px;border:0;border-radius:11px;text-decoration:none;color:#e9faff;background:transparent;font:inherit;text-align:left;cursor:pointer}
-.menu-item:hover,.profile-menu-item:hover{background:rgba(103,232,249,.08)}
-.menu-item svg,.profile-menu-item svg{width:21px;height:21px;flex:none}
-.chevron{margin-left:auto;font-size:18px;line-height:1}
-.theme-options-collapsed{display:none;grid-template-columns:1fr 1fr;gap:8px;padding:4px 8px 9px}
-.theme-options-collapsed.open{display:grid}
-.theme-options-collapsed button{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:10px;padding:8px 6px;font:inherit;font-size:.86rem;font-weight:800;cursor:pointer}
-body.theme-dark .menu-item,body.theme-dark .profile-menu-item{color:#fff}
-body.theme-dark .theme-options-collapsed button{color:#fff}
-.profile-modal{display:none;position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.68);align-items:center;justify-content:center;padding:20px}
-.profile-modal.open{display:flex}
-.profile-card{width:min(92vw,390px);background:#0a1d2b;color:#edfaff;border:1px solid rgba(103,232,249,.28);border-radius:22px;padding:28px;text-align:center;box-shadow:0 25px 80px rgba(0,0,0,.55);position:relative}
-.profile-card-avatar{width:92px;height:92px;border-radius:50%;object-fit:cover;border:2px solid rgba(103,232,249,.45);margin:0 auto 14px;display:block}
-.profile-card-name{font-size:1.2rem;font-weight:900;margin-top:4px}
-.profile-card-id{margin-top:6px;color:#67e8f9;font-weight:900;letter-spacing:.04em}
-.profile-close{position:absolute;right:12px;top:10px;width:38px;height:38px;border:0;background:transparent;color:inherit;font-size:28px;cursor:pointer}
-body.theme-dark .profile-card{background:#0a0a0a;color:#fff}
-.logout-btn{color:#ffb4b4!important}
-</style>
-
-</head><body class="page-home"><header class="topbar"><div class="topbar-inner">
+</style><style id="vyom-final-theme-fix">
+body.theme-dark{background:#000!important;color:#fff!important;--bg:#000!important;--panel:#0a0a0a!important;--panel2:#111!important;--text:#fff!important;--muted:#c4c4c4!important}
+body.theme-dark .topbar{background:#000!important;color:#fff!important}
+body.theme-dark .navrow{background:#080808!important}
+body.theme-dark .navrow a{color:#e8f8ff!important}
+body.theme-dark .panel,body.theme-dark .card,body.theme-dark .profile-modal-card,body.theme-dark .menu-panel{background:#0a0a0a!important;color:#fff!important}
+body.theme-dark .menu-item,body.theme-dark .profile-menu-item,body.theme-dark .theme-options-collapsed button{color:#fff!important}
+body.theme-dark textarea,body.theme-dark input{background:#050505!important;color:#fff!important}
+</style></head><body class="page-home"><header class="topbar"><div class="topbar-inner">
 <a class="brand" href="./home.html">VYOM</a>
 <div class="menu-wrap">
 <button class="menu-btn profile-btn" type="button" aria-label="प्रोफ़ाइल खोलें" onclick="toggleMenu()">
@@ -172,10 +154,7 @@ body.theme-dark .profile-card{background:#0a0a0a;color:#fff}
 <div class="theme-options-collapsed" id="themeOptions"><button type="button" onclick="setTheme('dark')">डार्क</button><button type="button" onclick="setTheme('vyom')">VYOM</button></div>
 <a href="#about" class="menu-item" onclick="showAbout();return false;">
 <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path fill="currentColor" d="M11 10h2v7h-2v-7Zm0-3h2v2h-2V7Z"/></svg><span>VYOM के बारे में</span></a>
-
-<button type="button" class="menu-item logout-btn" onclick="vyomLogout()">
-<svg viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M10 4H5v16h5M14 8l4 4-4 4M18 12H9"/></svg><span>लॉग आउट</span></button>
-</div></div></div></header>
+<button type="button" id="vyomLogoutBtn" class="menu-item" onclick="vyomLogout()"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M10 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h5v-2H5V6h5V4Zm6.5 3.5-1.4 1.4 2.7 2.7H9v2h8.8l-2.7 2.7 1.4 1.4L21.6 12l-5.1-4.5Z"/></svg><span>लॉग आउट</span></button></div></div></div></header>
 <nav class="navrow" aria-label="मुख्य नेविगेशन">
 <a class="nav-youtube" href="https://youtube.com/@vyom-000?si=ciXO8zUHqLblK2nj" target="_blank" rel="noopener">
 <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8ZM9.6 15.9V8.1l6.8 3.9-6.8 3.9Z"/></svg><span>YouTube</span>
@@ -211,81 +190,205 @@ body.theme-dark .profile-card{background:#0a0a0a;color:#fff}
 <a class="card" href="./prashn-uttar.html"><div class="card-icon"><span class="qmark">?</span></div><h3>प्रश्न-उत्तर</h3><p class="lead">प्रश्न पूछें और उत्तर पढ़ें।</p></a>
 </div></section>
 <section class="section"><div class="panel"><div class="kicker">VYOM</div><h2>VYOM एक माध्यम में सहभागिता लें</h2><p class="lead">VYOM के माध्यम से जुड़ने के लिए आगे बढ़ें।</p><a class="btn" href="./sahbhagita.html"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7-6v6m-3-3h6"/></svg> सहभागिता</a></div></section>
-</main><div class="info-modal" id="aboutModal" aria-hidden="true"><div class="info-backdrop" onclick="closeAbout()"></div><section class="info-card" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><button class="info-close" type="button" onclick="closeAbout()" aria-label="बंद करें">×</button><div class="kicker">VYOM</div><h2 id="aboutTitle">VYOM के बारे में</h2><p>यह एक संस्था है जो आत्मविकास और माया पर विचार और मनन करती है।</p><p>VYOM (परम) की यात्रा में आने वाली बाधाओं को सीढ़ी बनाने की दिशा में विचार, संवाद और सहभागिता का माध्यम है।</p><p>यहाँ प्रश्न, चिंतन और संवाद के माध्यम से व्यक्ति को अपने भीतर देखने और अपने जीवन को समझने का अवसर मिलता है।</p><div class="about-links"><a href="https://youtube.com/@vyom-000?si=ciXO8zUHqLblK2nj" target="_blank" rel="noopener"><span>YouTube के जरिए VYOM से जुड़ें</span><strong>↗</strong></a><a href="https://t.me/+ZJWN1OR2_bYxMjI1" target="_blank" rel="noopener"><span>Telegram के जरिए VYOM से जुड़ें</span><strong>↗</strong></a><a href="./sahbhagita.html"><span>VYOM से जुड़ें • सहभागिता लें</span><strong>→</strong></a></div></section></div><div class="profile-modal" id="profileModal" aria-hidden="true" onclick="if(event.target===this)closeProfile()"><section class="profile-card" role="dialog" aria-modal="true"><button class="profile-close" type="button" onclick="closeProfile()">×</button><img id="profileCardAvatar" class="profile-card-avatar" alt="प्रोफ़ाइल" style="display:none"><div id="profileCardName" class="profile-card-name">प्रोफ़ाइल</div><div id="profileCardId" class="profile-card-id">VYOM ID: उपलब्ध नहीं</div></section></div><footer>VYOM</footer>
+</main><div class="info-modal" id="aboutModal" aria-hidden="true"><div class="info-backdrop" onclick="closeAbout()"></div><section class="info-card" role="dialog" aria-modal="true" aria-labelledby="aboutTitle"><button class="info-close" type="button" onclick="closeAbout()" aria-label="बंद करें">×</button><div class="kicker">VYOM</div><h2 id="aboutTitle">VYOM के बारे में</h2><p>यह एक संस्था है जो आत्मविकास और माया पर विचार और मनन करती है।</p><p>VYOM (परम) की यात्रा में आने वाली बाधाओं को सीढ़ी बनाने की दिशा में विचार, संवाद और सहभागिता का माध्यम है।</p><p>यहाँ प्रश्न, चिंतन और संवाद के माध्यम से व्यक्ति को अपने भीतर देखने और अपने जीवन को समझने का अवसर मिलता है।</p><div class="about-links"><a href="https://youtube.com/@vyom-000?si=ciXO8zUHqLblK2nj" target="_blank" rel="noopener"><span>YouTube के जरिए VYOM से जुड़ें</span><strong>↗</strong></a><a href="https://t.me/+ZJWN1OR2_bYxMjI1" target="_blank" rel="noopener"><span>Telegram के जरिए VYOM से जुड़ें</span><strong>↗</strong></a><a href="./sahbhagita.html"><span>VYOM से जुड़ें • सहभागिता लें</span><strong>→</strong></a></div></section></div><footer>VYOM</footer>
+<style>
+.profile-modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:9999}
+.profile-modal.open{display:flex}
+.profile-modal-backdrop{position:absolute;inset:0;background:rgba(0,0,0,.68);backdrop-filter:blur(7px)}
+.profile-modal-card{position:relative;width:min(92vw,610px);padding:28px 22px 34px;border:1px solid rgba(103,232,249,.38);border-radius:30px;background:#081d2b;color:#fff;box-shadow:0 22px 70px rgba(0,0,0,.55);text-align:center}
+.profile-modal-close{position:absolute;right:20px;top:20px;width:56px;height:56px;border-radius:18px;border:1px solid rgba(103,232,249,.30);background:transparent;color:#fff;font-size:34px;line-height:1;cursor:pointer}
+.profile-modal-avatar{width:126px;height:126px;margin:56px auto 34px;border-radius:50%;border:4px solid rgba(103,232,249,.48);background:#101010;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:56px;font-weight:800}
+.profile-modal-avatar img{width:100%;height:100%;object-fit:cover}
+.profile-modal-title{font-size:34px;font-weight:800;margin:0 0 18px}
+.profile-modal-id{font-size:26px;font-weight:800;color:#67e8f9;margin:0 0 68px}
+.profile-modal-note{font-size:18px;color:#d0d8de;margin:0}
+body.theme-dark .profile-modal-card{background:#090909;border-color:rgba(103,232,249,.28)}
+body.theme-dark .profile-modal-note{color:#c9c9c9}
+</style>
+
+<div class="profile-modal" id="profileModal" aria-hidden="true">
+  <div class="profile-modal-backdrop" onclick="closeProfileModal()"></div>
+  <section class="profile-modal-card" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+    <button class="profile-modal-close" type="button" onclick="closeProfileModal()" aria-label="बंद करें">×</button>
+    <div class="profile-modal-avatar" id="profileModalAvatar">प्र</div>
+    <h2 class="profile-modal-title" id="profileModalTitle">प्रोफ़ाइल</h2>
+    <div class="profile-modal-id" id="profileModalId">VYOM ID: —</div>
+    <p class="profile-modal-note">VYOM सदस्य प्रोफ़ाइल</p>
+  </section>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-const VYOM_SUPABASE_URL='https://cpiuytuswbpvmblynpdh.supabase.co';
-const VYOM_SUPABASE_KEY='sb_publishable_S_Qxhf9lPN2kzc-LyUKW1Q_yIRfpTzY';
-const vyomSupabase=window.supabase.createClient(VYOM_SUPABASE_URL,VYOM_SUPABASE_KEY);
+const SUPABASE_URL = "https://cpiuytuswbpvmblynpdh.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_S_Qxhf9lPN2kzc-LyUKW1Q_yIRfpTzY";
+const vyomSupabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-function toggleMenu(){document.getElementById('menuPanel')?.classList.toggle('open')}
-function toggleThemeOptions(){document.getElementById('themeOptions')?.classList.toggle('open')}
+function toggleMenu(){
+  const p=document.getElementById('menuPanel');
+  if(p)p.classList.toggle('open');
+}
 function setTheme(theme){
   document.body.classList.toggle('theme-dark',theme==='dark');
   localStorage.setItem('vyom-theme',theme);
   document.getElementById('themeOptions')?.classList.remove('open');
   document.getElementById('menuPanel')?.classList.remove('open');
 }
-function showAbout(){document.getElementById('menuPanel')?.classList.remove('open');document.getElementById('aboutModal')?.classList.add('open');document.getElementById('aboutModal')?.setAttribute('aria-hidden','false')}
-function closeAbout(){document.getElementById('aboutModal')?.classList.remove('open');document.getElementById('aboutModal')?.setAttribute('aria-hidden','true')}
-function showProfile(){
+function toggleThemeOptions(){
+  document.getElementById('themeOptions')?.classList.toggle('open');
+}
+function showAbout(){
   document.getElementById('menuPanel')?.classList.remove('open');
-  const n=localStorage.getItem('vyom-name')||'प्रोफ़ाइल';
-  const id=localStorage.getItem('vyom-id')||'';
-  const a=localStorage.getItem('vyom-avatar')||'';
-  const modal=document.getElementById('profileModal');
-  if(!modal){alert(id?n+'\nVYOM ID: '+id:n);return;}
-  document.getElementById('profileCardName').textContent=n;
-  document.getElementById('profileCardId').textContent=id?'VYOM ID: '+id:'VYOM ID: उपलब्ध नहीं';
-  const img=document.getElementById('profileCardAvatar');
-  if(img && a){img.src=a;img.style.display='block'}
-  modal.classList.add('open');
+  document.getElementById('aboutModal')?.classList.add('open');
+  document.getElementById('aboutModal')?.setAttribute('aria-hidden','false');
 }
-function closeProfile(){document.getElementById('profileModal')?.classList.remove('open')}
-function applyProfile(name,id,avatar){
-  if(name){localStorage.setItem('vyom-name',name)}
-  if(id){
-    const formatted='VYOM-'+String(id).padStart(2,'0');
-    localStorage.setItem('vyom-id',formatted);
-  }
-  if(avatar){localStorage.setItem('vyom-avatar',avatar)}
-  const a=avatar||localStorage.getItem('vyom-avatar')||'';
-  const img=document.getElementById('profileAvatar');
+function closeAbout(){
+  document.getElementById('aboutModal')?.classList.remove('open');
+  document.getElementById('aboutModal')?.setAttribute('aria-hidden','true');
+}
+
+function setProfileAvatar(url,name){
+  const initials=(name||'प्रोफ़ाइल').trim().slice(0,1)||'प्र';
+  const top=document.getElementById('profileAvatar');
   const icon=document.getElementById('profileIcon');
-  if(img&&a){img.src=a;img.hidden=false;if(icon)icon.setAttribute('hidden','hidden')}
+  const modal=document.getElementById('profileModalAvatar');
+
+  if(url){
+    if(top){top.src=url;top.hidden=false;}
+    icon?.setAttribute('hidden','');
+    if(modal){
+      modal.innerHTML='';
+      const img=document.createElement('img');
+      img.src=url;
+      img.alt='प्रोफ़ाइल';
+      modal.appendChild(img);
+    }
+  }else{
+    if(top)top.hidden=true;
+    icon?.removeAttribute('hidden');
+    if(modal)modal.textContent=initials;
+  }
 }
-async function syncVYOMProfile(){
+
+function setProfileData(name,memberNo,avatar){
+  const safeName=(name||'प्रोफ़ाइल').trim()||'प्रोफ़ाइल';
+  const idText=(memberNo!==null && memberNo!==undefined && memberNo!=='')
+    ? 'VYOM-'+String(memberNo).padStart(2,'0') : null;
+
+  localStorage.setItem('vyom-name',safeName);
+  if(idText){
+    localStorage.setItem('vyom-id',idText);
+    localStorage.setItem('vyom-member','true');
+  }
+  if(avatar)localStorage.setItem('vyom-avatar',avatar);
+
+  const title=document.getElementById('profileModalTitle');
+  const id=document.getElementById('profileModalId');
+  if(title)title.textContent=safeName;
+  if(id)id.textContent='VYOM ID: '+(idText || '—');
+  setProfileAvatar(avatar || localStorage.getItem('vyom-avatar') || '',safeName);
+}
+
+async function loadVYOMProfile(){
   try{
     const {data:{session}}=await vyomSupabase.auth.getSession();
-    if(!session?.user){
-      const n=localStorage.getItem('vyom-name'),a=localStorage.getItem('vyom-avatar');
-      if(n||a)applyProfile(n||'प्रोफ़ाइल',null,a||'');
-      return;
-    }
-    const u=session.user,m=u.user_metadata||{};
-    const name=m.full_name||m.name||u.email?.split('@')[0]||'प्रोफ़ाइल';
-    const avatar=m.avatar_url||m.picture||'';
-    const {data,error}=await vyomSupabase.rpc('register_vyom_member',{p_name:name,p_avatar:avatar});
+    if(!session || !session.user)return;
+
+    const u=session.user;
+    const meta=u.user_metadata || {};
+    const name=meta.full_name || meta.name || u.email?.split('@')[0] || 'प्रोफ़ाइल';
+    const avatar=meta.avatar_url || meta.picture || '';
+
+    const {data,error}=await vyomSupabase.rpc('register_vyom_member',{
+      p_name:name,
+      p_avatar:avatar
+    });
     if(error)throw error;
+
     const row=Array.isArray(data)?data[0]:data;
-    applyProfile(row?.name||name,row?.member_no??null,row?.avatar_url||avatar);
-  }catch(e){
-    applyProfile(localStorage.getItem('vyom-name')||'प्रोफ़ाइल',null,localStorage.getItem('vyom-avatar')||'');
-    console.warn('VYOM profile sync:',e);
+    if(row && row.member_no!==null && row.member_no!==undefined){
+      setProfileData(row.name || name,row.member_no,row.avatar_url || avatar);
+    }else{
+      setProfileData(name,null,avatar);
+    }
+  }catch(err){
+    const name=localStorage.getItem('vyom-name') || 'प्रोफ़ाइल';
+    const stored=localStorage.getItem('vyom-id') || '';
+    const num=stored.replace(/^VYOM-/,'');
+    const avatar=localStorage.getItem('vyom-avatar') || '';
+    setProfileData(name,num || null,avatar);
   }
 }
-async function vyomLogout(){
-  try{await vyomSupabase.auth.signOut()}catch(e){}
-  localStorage.removeItem('vyom-name');localStorage.removeItem('vyom-id');localStorage.removeItem('vyom-avatar');localStorage.removeItem('vyom-member');localStorage.removeItem('vyomLoggedIn');
-  location.replace('./index.html');
+
+function showProfile(){
+  document.getElementById('menuPanel')?.classList.remove('open');
+
+  const name=localStorage.getItem('vyom-name') || 'प्रोफ़ाइल';
+  const storedId=localStorage.getItem('vyom-id') || '';
+  const avatar=localStorage.getItem('vyom-avatar') || '';
+
+  const title=document.getElementById('profileModalTitle');
+  const id=document.getElementById('profileModalId');
+  if(title)title.textContent=name;
+  if(id)id.textContent='VYOM ID: '+(storedId || '—');
+  setProfileAvatar(avatar,name);
+
+  document.getElementById('profileModal')?.classList.add('open');
+  document.getElementById('profileModal')?.setAttribute('aria-hidden','false');
+
+  loadVYOMProfile();
 }
+
+function closeProfileModal(){
+  document.getElementById('profileModal')?.classList.remove('open');
+  document.getElementById('profileModal')?.setAttribute('aria-hidden','true');
+}
+
 (function(){
   const t=localStorage.getItem('vyom-theme')||'vyom';
   if(t==='dark')document.body.classList.add('theme-dark');
-  const a=localStorage.getItem('vyom-avatar');
-  if(a)applyProfile(localStorage.getItem('vyom-name')||'प्रोफ़ाइल',null,a);
-  document.addEventListener('click',e=>{const w=document.querySelector('.menu-wrap'),p=document.getElementById('menuPanel');if(w&&p&&!w.contains(e.target))p.classList.remove('open')});
-  syncVYOMProfile();
+
+  const name=localStorage.getItem('vyom-name')||'प्रोफ़ाइल';
+  const avatar=localStorage.getItem('vyom-avatar')||'';
+  const storedId=localStorage.getItem('vyom-id')||'';
+
+  setProfileAvatar(avatar,name);
+
+  const title=document.getElementById('profileModalTitle');
+  const id=document.getElementById('profileModalId');
+  if(title)title.textContent=name;
+  if(id)id.textContent='VYOM ID: '+(storedId || '—');
+
+  loadVYOMProfile();
 })();
+
+document.addEventListener('click',e=>{
+  const w=document.querySelector('.menu-wrap');
+  const p=document.getElementById('menuPanel');
+  if(w&&p&&!w.contains(e.target))p.classList.remove('open');
+});
 </script>
-</body></html>
+<script id="vyom-final-fix">
+(function(){
+  function applyTheme(){
+    const t=localStorage.getItem('vyom-theme')||'vyom';
+    document.body.classList.toggle('theme-dark',t==='dark');
+  }
+  window.setTheme=function(theme){
+    localStorage.setItem('vyom-theme',theme==='dark'?'dark':'vyom');
+    applyTheme();
+    document.getElementById('themeOptions')?.classList.remove('open');
+    document.getElementById('menuPanel')?.classList.remove('open');
+  };
+  window.vyomLogout=async function(){
+    try{ if(window.vyomSupabase) await window.vyomSupabase.auth.signOut(); }catch(e){}
+    localStorage.removeItem('vyom-name');
+    localStorage.removeItem('vyom-id');
+    localStorage.removeItem('vyom-avatar');
+    localStorage.removeItem('vyom-member');
+    localStorage.removeItem('vyomLoggedIn');
+    location.href='./index.html';
+  };
+  applyTheme();
+  window.addEventListener('storage',applyTheme);
+})();
+</script></body></html>
