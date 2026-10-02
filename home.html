@@ -186,11 +186,16 @@ body.theme-dark .theme-options-collapsed button{color:#fff}
 const SUPABASE_URL = "https://cpiuytuswbpvmblynpdh.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_S_Qxhf9lPN2kzc-LyUKW1Q_yIRfpTzY";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage }
+  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage, storageKey: "vyom-auth" }
 });
 
 function toggleMenu(){const p=document.getElementById('menuPanel');if(p)p.classList.toggle('open')}
-function setTheme(theme){document.body.classList.toggle('theme-dark',theme==='dark');localStorage.setItem('vyom-theme',theme);document.getElementById('themeOptions')?.classList.remove('open');document.getElementById('menuPanel')?.classList.remove('open')}
+function setTheme(theme){
+  document.body.classList.toggle('theme-dark', theme==='dark');
+  localStorage.setItem('vyom-theme', theme);
+  document.getElementById('themeOptions')?.classList.remove('open');
+  document.getElementById('menuPanel')?.classList.remove('open');
+}
 function toggleThemeOptions(){document.getElementById('themeOptions')?.classList.toggle('open')}
 function showAbout(){document.getElementById('menuPanel')?.classList.remove('open');document.getElementById('aboutModal')?.classList.add('open');document.getElementById('aboutModal')?.setAttribute('aria-hidden','false')}
 function closeAbout(){document.getElementById('aboutModal')?.classList.remove('open');document.getElementById('aboutModal')?.setAttribute('aria-hidden','true')}
@@ -198,30 +203,45 @@ function closeAbout(){document.getElementById('aboutModal')?.classList.remove('o
 async function showProfile(){
   document.getElementById('menuPanel')?.classList.remove('open');
   const {data:{user}} = await supabaseClient.auth.getUser();
-  if(!user){ alert('कृपया पहले Google से लॉगिन करें।'); return; }
-  const name=user.user_metadata?.full_name || user.user_metadata?.name || user.email || 'प्रोफ़ाइल';
-  const id=localStorage.getItem('vyom-id');
-  alert(id ? name+'\nVYOM ID: '+id : name+'\n\nVYOM ID: सदस्यता सक्रिय होने के बाद दिखाई जाएगी।');
+  const name = user?.user_metadata?.full_name || user?.user_metadata?.name || localStorage.getItem('vyom-name') || user?.email || 'प्रोफ़ाइल';
+  const id = localStorage.getItem('vyom-id');
+  alert(id ? name+'\\nVYOM ID: '+id : name+'\\n\\nVYOM ID: सदस्यता सक्रिय होने के बाद दिखाई जाएगी।');
 }
 
 async function loadGoogleProfile(){
-  const {data:{user}} = await supabaseClient.auth.getUser();
-  if(!user) return;
-  const name=user.user_metadata?.full_name || user.user_metadata?.name || user.email || '';
-  const avatar=user.user_metadata?.avatar_url || user.user_metadata?.picture || '';
-  localStorage.setItem('vyom-name',name);
-  if(avatar) localStorage.setItem('vyom-avatar',avatar);
+  let user = null;
+  try { const {data:{user:u}} = await supabaseClient.auth.getUser(); user=u; } catch(e) {}
+  const name = user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email || localStorage.getItem('vyom-name') || '';
+  const avatar = user?.user_metadata?.avatar_url || user?.user_metadata?.picture || localStorage.getItem('vyom-avatar') || '';
+  if(name) localStorage.setItem('vyom-name', name);
+  if(avatar) localStorage.setItem('vyom-avatar', avatar);
   const img=document.getElementById('profileAvatar');
-  if(img && avatar){img.src=avatar;img.hidden=false;document.getElementById('profileIcon')?.setAttribute('hidden','true');}
+  const icon=document.getElementById('profileIcon');
+  if(img && avatar){ img.src=avatar; img.hidden=false; if(icon) icon.hidden=true; }
 }
 
-(function(){const t=localStorage.getItem('vyom-theme')||'vyom';if(t==='dark')document.body.classList.add('theme-dark')})();
+(function(){
+  const t=localStorage.getItem('vyom-theme')||'vyom';
+  if(t==='dark') document.body.classList.add('theme-dark');
+  const a=localStorage.getItem('vyom-avatar');
+  if(a){const img=document.getElementById('profileAvatar');const icon=document.getElementById('profileIcon');if(img){img.src=a;img.hidden=false;}if(icon)icon.hidden=true;}
+})();
+
 document.addEventListener('click',e=>{const w=document.querySelector('.menu-wrap');const p=document.getElementById('menuPanel');if(w&&p&&!w.contains(e.target))p.classList.remove('open')});
 
 (async function(){
   const {data:{session}} = await supabaseClient.auth.getSession();
-  if(!session){ window.location.replace('./index.html'); return; }
+  if(!session && localStorage.getItem('vyom-authenticated') !== 'true') { window.location.replace('./index.html'); return; }
+  if(session) localStorage.setItem('vyom-authenticated','true');
   await loadGoogleProfile();
 })();
+
+supabaseClient.auth.onAuthStateChange((event, session)=>{
+  if(session){
+    localStorage.setItem('vyom-authenticated','true');
+    setTimeout(loadGoogleProfile, 0);
+  }
+});
 </script>
-</body></html>
+</body>
+</html>

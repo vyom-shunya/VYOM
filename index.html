@@ -91,33 +91,33 @@ body:before{
 const SUPABASE_URL = "https://cpiuytuswbpvmblynpdh.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_S_Qxhf9lPN2kzc-LyUKW1Q_yIRfpTzY";
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-  auth: {
-    persistSession: true,
-    autoRefreshToken: true,
-    detectSessionInUrl: true,
-    storage: window.localStorage
+  auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true, storage: window.localStorage, storageKey: "vyom-auth" }
+});
+
+(async () => {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (session || localStorage.getItem('vyom-authenticated') === 'true') {
+    window.location.replace('./home.html');
+  }
+})();
+
+document.getElementById('googleLogin').addEventListener('click', async function(){
+  this.disabled = true;
+  const { error } = await supabaseClient.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: 'https://vyom-shunya.github.io/VYOM/home.html',
+      queryParams: { access_type: 'offline', prompt: 'select_account' }
+    }
+  });
+  if (error) {
+    this.disabled = false;
+    alert('Google Login में समस्या आई। कृपया फिर से प्रयास करें।');
   }
 });
 
-// If the user is already signed in, skip the login page.
-(async () => {
-  const { data: { session } } = await supabaseClient.auth.getSession();
-  if (session) window.location.replace("./home.html");
-})();
-
-document.getElementById("googleLogin").addEventListener("click", async function(){
-  this.disabled = true;
-  const { error } = await supabaseClient.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: "https://vyom-shunya.github.io/VYOM/home.html"
-    }
-  });
-
-  if (error) {
-    this.disabled = false;
-    alert("Google Login में समस्या आई। कृपया फिर से प्रयास करें।");
-  }
+supabaseClient.auth.onAuthStateChange((event, session) => {
+  if (session) localStorage.setItem('vyom-authenticated', 'true');
 });
 </script>
 </body>
