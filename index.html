@@ -64,6 +64,59 @@ body:before{
   .welcome{font-size:18px;margin-bottom:29px}
 }
 </style>
+
+<style id="vyom-app-ui">
+:root{--app-bg:#06121f;--app-card:#0b1d2b;--app-line:rgba(103,232,249,.18);--app-accent:#67e8f9}
+body{background:var(--app-bg);padding-bottom:82px}
+.topbar{background:rgba(6,19,31,.97);backdrop-filter:blur(14px);border-bottom:1px solid var(--app-line)}
+.topbar-inner{height:68px;padding:0 18px;max-width:100%;}
+.back-home{letter-spacing:.15em;font-size:1.35rem;gap:10px}
+.back-home svg{width:28px;height:28px}
+.profile-btn{width:46px;height:46px;border:1px solid rgba(103,232,249,.38);background:#102a3d;box-shadow:0 3px 14px #0003}
+.navrow{min-height:70px;background:#0b2638;border-bottom:1px solid var(--app-line);gap:3px;padding:6px 8px;box-shadow:0 5px 18px #0002}
+.navrow a{min-width:0;flex:1;flex-direction:column;gap:4px;padding:7px 3px;border-radius:13px;font-size:.78rem;color:#c5d9e4}
+.navrow a svg{width:27px;height:27px}
+main{max-width:1100px;margin:auto;padding:0 14px}
+.hero{padding:28px 0 20px;background:transparent}
+.hero-inner{display:grid;grid-template-columns:minmax(120px, .8fr) 1.2fr;align-items:center;gap:22px;max-width:100%;padding:22px;border:1px solid var(--app-line);border-radius:24px;background:linear-gradient(145deg,#0b2638,#071725 72%);box-shadow:0 12px 30px #0002}
+.hero-logo{width:100%;max-width:220px;margin:auto}
+.hero-logo img{width:100%;height:auto;object-fit:contain;border-radius:50%}
+.hero h1{font-size:clamp(2rem,5vw,3.8rem);margin:4px 0 12px;letter-spacing:.1em}
+.hero .lead{font-size:1rem;line-height:1.8}
+.kicker{letter-spacing:.13em}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.btn{border-radius:13px;padding:11px 15px}
+.section{padding:18px 0 24px}
+.section-head{margin-bottom:15px}
+.grid{gap:14px}
+.card,.panel,.info-card,.question-card,.form-card{border:1px solid var(--app-line);border-radius:20px;background:linear-gradient(145deg,#0b2232,#081724);box-shadow:0 8px 22px #0002}
+.card{padding:20px}
+.card-icon{width:54px;height:54px;border-radius:17px;background:rgba(103,232,249,.12);display:grid;place-items:center}
+input,textarea,select{border-radius:13px!important}
+/* Mobile app layout */
+@media(max-width:640px){
+ body{font-size:15px;padding-bottom:88px}
+ .topbar-inner{height:62px;padding:0 14px}
+ .back-home{font-size:1.2rem}
+ .profile-btn{width:43px;height:43px}
+ .navrow{position:fixed;left:10px;right:10px;bottom:8px;z-index:100;min-height:68px;border:1px solid rgba(103,232,249,.2);border-radius:22px;background:rgba(10,31,46,.96);backdrop-filter:blur(18px);box-shadow:0 10px 30px #0008;padding:6px 4px;gap:0}
+ .navrow a{font-size:.68rem;padding:5px 1px;min-width:0;gap:3px}
+ .navrow a svg{width:23px;height:23px}
+ main{padding:0 12px}
+ .hero{padding:18px 0 12px}
+ .hero-inner{grid-template-columns:1fr;gap:12px;padding:18px;border-radius:22px;text-align:center}
+ .hero-logo{max-width:190px}
+ .hero h1{font-size:2.6rem;margin:2px 0 10px}
+ .hero .lead{font-size:1rem;margin:0}
+ .actions{justify-content:center}
+ .grid{grid-template-columns:1fr!important;gap:12px}
+ .card,.panel{padding:17px;border-radius:18px}
+ .section{padding:14px 0 20px}
+ .section-head h2{font-size:1.35rem}
+ .menu-panel{right:0;max-width:calc(100vw - 28px)}
+}
+@media(min-width:641px) and (max-width:900px){.hero-inner{grid-template-columns:.8fr 1.2fr}.hero-logo{max-width:180px}}
+</style>
 </head>
 <body>
 <main class="screen">
