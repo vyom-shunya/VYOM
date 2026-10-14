@@ -149,6 +149,17 @@ main{max-width:1100px;margin:auto;padding:0 14px}
 .card{padding:20px}
 .card-icon{width:54px;height:54px;border-radius:17px;background:rgba(103,232,249,.12);display:grid;place-items:center}
 input,textarea,select{border-radius:13px!important}
+/* Centered VYOM app header */
+.topbar-inner{position:relative;display:grid;grid-template-columns:48px 1fr 48px;align-items:center;justify-content:initial;gap:8px}
+.back-home{display:flex;align-items:center;justify-content:flex-start;width:42px;height:44px;gap:0;letter-spacing:0;font-size:0;text-decoration:none;flex:none}
+.back-home svg{width:32px;height:32px;transform:none}
+.back-home span{display:none}
+.topbar-inner:before{content:"VYOM";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:1.55rem;font-weight:950;letter-spacing:.22em;color:#edfaff;text-decoration:none;pointer-events:none}
+.menu-wrap{justify-self:end;z-index:2}
+.profile-btn{border-radius:50%;overflow:hidden}
+.profile-avatar{width:100%;height:100%;object-fit:cover;border-radius:50%}
+@media(max-width:640px){.topbar-inner{height:68px;padding:0 14px;grid-template-columns:44px 1fr 44px}.topbar-inner:before{font-size:1.35rem;letter-spacing:.2em}.back-home{width:40px;height:42px}.back-home svg{width:30px;height:30px}.profile-btn{width:43px;height:43px}}
+
 /* Mobile app layout */
 @media(max-width:640px){
  body{font-size:15px;padding-bottom:88px}
@@ -174,7 +185,7 @@ input,textarea,select{border-radius:13px!important}
 @media(min-width:641px) and (max-width:900px){.hero-inner{grid-template-columns:.8fr 1.2fr}.hero-logo{max-width:180px}}
 </style>
 </head><body class="page-contribute"><header class="topbar"><div class="topbar-inner">
-<a class="back-home" href="./home.html" aria-label="Home पर वापस जाएँ">
+<a class="back-home" href="./home.html" aria-label="वापस जाएँ" onclick="if(history.length>1){history.back();return false;}">
 <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m14.7 5.3-1.4-1.4L5.2 12l8.1 8.1 1.4-1.4L9.1 13H20v-2H9.1l5.6-5.7Z"/></svg>
 <span>VYOM</span>
 </a>
