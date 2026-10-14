@@ -243,11 +243,12 @@ async function showProfile(){
 }
 (function(){const t=localStorage.getItem('vyom-theme')||'vyom';if(t==='dark')document.body.classList.add('theme-dark');const a=localStorage.getItem('vyom-avatar');if(a){const i=document.getElementById('profileAvatar');const icon=document.getElementById('profileIcon');if(i){i.src=a;i.hidden=false;}if(icon)icon.hidden=true;}})();
 document.addEventListener('click',e=>{const w=document.querySelector('.menu-wrap');const p=document.getElementById('menuPanel');if(w&&p&&!w.contains(e.target))p.classList.remove('open')});
-(async()=>{try{const {data:{user}}=await supabaseClient.auth.getUser();if(user){localStorage.setItem('vyom-authenticated','true');const n=user.user_metadata?.full_name||user.user_metadata?.name||user.email||'';const a=user.user_metadata?.avatar_url||user.user_metadata?.picture||'';if(n)localStorage.setItem('vyom-name',n);if(a)localStorage.setItem('vyom-avatar',a);const i=document.getElementById('profileAvatar');const icon=document.getElementById('profileIcon');if(i&&a){i.src=a;i.hidden=false;if(icon)icon.hidden=true;}}}catch(e){}})();
+(async()=>{try{const {data:{user}}=await supabaseClient.auth.getUser();if(user){localStorage.setItem('vyom-authenticated','true');const n=user.user_metadata?.full_name||user.user_metadata?.name||user.email||'';const ident=user.identities?.find(x=>x.provider==='google')?.identity_data||{};const a=user.user_metadata?.avatar_url||user.user_metadata?.picture||ident.avatar_url||ident.picture||'';if(n)localStorage.setItem('vyom-name',n);if(a)localStorage.setItem('vyom-avatar',a);const i=document.getElementById('profileAvatar');const icon=document.getElementById('profileIcon');if(i&&a){i.src=a;i.hidden=false;if(icon)icon.hidden=true;}}}catch(e){}})();
 
 async function logoutVYOM(){
   document.getElementById('menuPanel')?.classList.remove('open');
-  try{ await supabaseClient.auth.signOut(); }catch(e){}
+  try{ await supabaseClient.auth.signOut({scope:'local'}); }catch(e){}
+  try{localStorage.removeItem('vyom-auth');}catch(e){}
   localStorage.removeItem('vyom-authenticated');
   localStorage.removeItem('vyom-name');
   localStorage.removeItem('vyom-avatar');
